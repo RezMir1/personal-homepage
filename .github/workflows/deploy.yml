@@ -1,3 +1,4 @@
+
 name: Deploy Personal Homepage
 
 on:
@@ -36,19 +37,8 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
-      - name: Diagnose SSH connectivity
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-        run: |
-          echo "Checking SSH port..."
-          timeout 10 bash -c 'echo > /dev/tcp/$DEPLOY_HOST/$DEPLOY_PORT' \
-            && echo "SSH PORT OPEN" \
-            || echo "SSH PORT UNREACHABLE"
 
-          echo "Checking SSH banner..."
-          ssh-keyscan -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" 2>&1 || true
-                - name: Check deployment configuration
+      - name: Check deployment configuration
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
@@ -61,6 +51,22 @@ jobs:
           echo "All deployment variables are present"
           echo "Host is IPv4: $( [[ "$DEPLOY_HOST" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo yes || echo no )"
           echo "Port is numeric: $( [[ "$DEPLOY_PORT" =~ ^[0-9]+$ ]] && echo yes || echo no )"
+
+      - name: Diagnose SSH connectivity
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+        run: |
+          echo "Checking SSH port..."
+          if timeout 10 bash -c 'echo > /dev/tcp/$DEPLOY_HOST/$DEPLOY_PORT'; then
+            echo "SSH PORT OPEN"
+          else
+            echo "SSH PORT UNREACHABLE"
+          fi
+
+          echo "Checking SSH banner..."
+          ssh-keyscan -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" 2>&1 || true
+
       - name: Upload website
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
