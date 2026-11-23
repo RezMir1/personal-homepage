@@ -36,7 +36,18 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
+      - name: Diagnose SSH connectivity
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+        run: |
+          echo "Checking SSH port..."
+          timeout 10 bash -c 'echo > /dev/tcp/$DEPLOY_HOST/$DEPLOY_PORT' \
+            && echo "SSH PORT OPEN" \
+            || echo "SSH PORT UNREACHABLE"
 
+          echo "Checking SSH banner..."
+          ssh-keyscan -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" 2>&1 || true
       - name: Upload website
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
