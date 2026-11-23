@@ -1,50 +1,266 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Портфолио - Мирон Резвов</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-        color: #333;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Портфолио Мирона Резвова — проекты и веб-разработка">
+  <title>Мирон Резвов — Портфолио</title>
 
-      .container {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        max-width: 600px;
-        width: 90%;
-      }
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #172337;
+      --text: #f8fafc;
+      --muted: #a5b4c8;
+      --accent: #7dd3fc;
+      --border: #2b3b52;
+    }
 
-      h1 {
-        color: #2c3e50;
-        margin-bottom: 1rem;
-      }
+    * { box-sizing: border-box; }
 
-      p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Привет!</h1>
-      <p>
-        Я Мирон Резвов, начинающий веб-разработчик, и это мой сервер для
-        портфолио.
-      </p>
-    </div>
-  </body>
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 24px;
+    }
+
+    header, .brand, .section-title, .project-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    header {
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0 24px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .brand i, .section-title i {
+      color: var(--accent);
+    }
+
+    .muted { color: var(--muted); }
+
+    .hero {
+      padding: 90px 0 75px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.15;
+      margin: 14px 0 22px;
+      max-width: 800px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      font-size: 18px;
+    }
+
+    .section-title {
+      margin-bottom: 24px;
+    }
+
+    .section-title h2 { margin: 0; }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .project-icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: #263d58;
+      color: var(--accent);
+    }
+
+    .project-heading {
+      margin-bottom: 18px;
+    }
+
+    .project-heading h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .project-card p { color: var(--muted); }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .tag {
+      background: #263d58;
+      border-radius: 7px;
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 650;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 90px;
+      padding: 25px 0;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 60px 0 45px; }
+      .hero p { font-size: 16px; }
+      .project-card { padding: 20px; }
+    }
+    .project-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <i data-lucide="terminal"></i>
+        MR / DEV
+      </div>
+      <span class="muted">Портфолио</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">ПРИВЕТ, Я МИРОН</div>
+        <h1>Создаю программы и веб-приложения.</h1>
+        <p class="muted">
+          Изучаю разработку, экспериментирую с технологиями
+          и публикую собственные проекты на домашнем сервере.
+        </p>
+      </section>
+
+      <section aria-labelledby="projects-title">
+        <div class="section-title">
+          <i data-lucide="folder-code"></i>
+          <h2 id="projects-title">Мои проекты</h2>
+        </div>
+
+        <div class="projects">
+          <article class="project-card">
+            <div class="project-heading">
+              <div class="project-icon">
+                <i data-lucide="book-open"></i>
+              </div>
+              <h3>Personal Wiki</h3>
+            </div>
+
+            <p>
+              Личная база знаний для хранения заметок,
+              организации информации и работы с проектами.
+            </p>
+
+            <div class="tags">
+              <span class="tag">Frontend</span>
+              <span class="tag">Backend</span>
+              <span class="tag">Self-hosted</span>
+            </div>
+
+      
+<div class="project-links">
+  <a class="project-link"
+     href="/personal-wiki-v2/login"
+     target="_blank"
+     rel="noopener noreferrer">
+    <i data-lucide="external-link"></i>
+    Открыть приложение
+  </a>
+
+  <a class="project-link"
+     href="https://github.com/RezMir1/personal-wiki-frontend-v2"
+     target="_blank"
+     rel="noopener noreferrer">
+    <i data-lucide="github"></i>
+    Исходный код
+  </a>
+</div>
+
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <i data-lucide="github"></i>
+      <a href="https://github.com/RezMir1"
+         target="_blank"
+         rel="noopener noreferrer">
+        GitHub · RezMir1
+      </a>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
 </html>
